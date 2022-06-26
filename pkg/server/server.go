@@ -29,6 +29,7 @@ func (s *Server) Start(ctx context.Context, port string) error {
 		return ctx.Err()
 	}
 	http.HandleFunc("/order", s.Getorder)
+	log.Printf("starting the server at port: %v", port)
 	err := http.ListenAndServe(":"+port, nil)
 	return err
 }

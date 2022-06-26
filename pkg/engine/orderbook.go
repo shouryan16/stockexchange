@@ -21,8 +21,12 @@ func NewOrderBook() *OrderBook {
 
 func (book *OrderBook) ProcessBuyOrder(order *Order) {
 	for order.Amount > 0 {
-		item, isEmpty := book.SellOrders[order.Price].Peek()
-		if !isEmpty {
+		queue, isPresent := book.SellOrders[order.Price]
+		if !isPresent {
+			break
+		}
+		item, isPresent := queue.Peek()
+		if !isPresent {
 			break
 		}
 		sellOrder := item.(*Order)
@@ -44,14 +48,21 @@ func (book *OrderBook) ProcessBuyOrder(order *Order) {
 		RecordTransaction(trade)
 	}
 	if order.Amount > 0 {
-		book.BuyOrders[order.Price].Enqueue(&order)
+		if _, isPresent := book.BuyOrders[order.Price]; !isPresent {
+			book.BuyOrders[order.Price] = aq.New()
+		}
+		book.BuyOrders[order.Price].Enqueue(order)
 	}
 }
 
 func (book *OrderBook) ProcessSellOrder(order *Order) {
 	for order.Amount > 0 {
-		item, isEmpty := book.BuyOrders[order.Price].Peek()
-		if !isEmpty {
+		queue, isPresent := book.BuyOrders[order.Price]
+		if !isPresent {
+			break
+		}
+		item, isPresent := queue.Peek()
+		if !isPresent {
 			break
 		}
 		buyOrder := item.(*Order)
@@ -67,11 +78,14 @@ func (book *OrderBook) ProcessSellOrder(order *Order) {
 			SellerID:  order.ID,
 			Amount:    int(minAmount),
 			Price:     order.Price,
-			Timestamp: time.Now().String(),
+			Timestamp: time.Now().Format("2006-01-02 15:04:05"),
 		}
 		RecordTransaction(trade)
 	}
 	if order.Amount > 0 {
-		book.SellOrders[order.Price].Enqueue(&order)
+		if _, isPresent := book.SellOrders[order.Price]; !isPresent {
+			book.SellOrders[order.Price] = aq.New()
+		}
+		book.SellOrders[order.Price].Enqueue(order)
 	}
 }

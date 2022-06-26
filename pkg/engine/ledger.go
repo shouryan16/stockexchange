@@ -1,11 +1,10 @@
 package engine
 
-import "fmt"
+import "log"
 
 var ledger = []*Trade{}
 
 func RecordTransaction(trade *Trade) {
-	fmt.Printf("%v", trade)
+	log.Printf("%+v", trade)
 	ledger = append(ledger, trade)
 }
- 

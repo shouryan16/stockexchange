@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"log"
 	"stockexchange/pkg/engine"
 	"time"
 
@@ -23,6 +24,7 @@ func NewStockHandler(time time.Duration) *StockHandler {
 }
 
 func (s *StockHandler) InitAndStart(ctx context.Context, book map[string]*engine.OrderBook) error {
+	log.Println("initializing and starting the workers")
 	errorgroup, errorcontext := errgroup.WithContext(ctx)
 	for _, stock := range Stocks {
 		stk := stock

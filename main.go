@@ -2,8 +2,6 @@ package main
 
 import (
 	"context"
-	"database/sql"
-	"fmt"
 	"log"
 
 	"net/http"
@@ -37,6 +35,7 @@ func main() {
 }
 
 func run() error {
+	log.Println("running the stockexchange service")
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
@@ -49,9 +48,9 @@ func run() error {
 	errorgroup.Go(func() error {
 		return h.InitAndStart(ctx, book)
 	})
-	time.Sleep(time.Second * 10)
+	time.Sleep(time.Second * 5)
 	errorgroup.Go(func() error {
-		return s.Start(ctx, ":8090")
+		return s.Start(ctx, "8090")
 	})
 	errorgroup.Go(func() error {
 		return handleSignals(errorcontext, cancel)
@@ -60,18 +59,18 @@ func run() error {
 	return nil
 }
 
-func dbConn() (db *sql.DB) {
-	db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/userdetails")
-	if err != nil {
-		log.Fatal(err)
-	}
-	pingErr := db.Ping()
-	if pingErr != nil {
-		log.Fatal(pingErr)
-	}
-	fmt.Println("Connected!")
-	return db
-}
+// func dbConn() (db *sql.DB) {
+// 	db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/userdetails")
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+// 	pingErr := db.Ping()
+// 	if pingErr != nil {
+// 		log.Fatal(pingErr)
+// 	}
+// 	fmt.Println("Connected!")
+// 	return db
+// }
 
 func handleSignals(ctx context.Context, cancel context.CancelFunc) error {
 	sigCh := make(chan os.Signal, 1)
