@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"database/sql"
-	"encoding/json"
 	"fmt"
 	"log"
 
@@ -13,17 +12,13 @@ import (
 	"os/signal"
 	"stockexchange/pkg/engine"
 	"stockexchange/pkg/handler"
-	"stockexchange/pkg/loginandsignup"
+	"stockexchange/pkg/server"
 
 	"syscall"
 	"time"
 
-	"github.com/gin-gonic/gin"
-	"github.com/rs/xid"
 	"golang.org/x/sync/errgroup"
 )
-
-var book = make(map[string]*engine.OrderBook)
 
 func main() {
 
@@ -45,62 +40,27 @@ func run() error {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
+	book := make(map[string]*engine.OrderBook)
+
 	h := handler.NewStockHandler(1 * time.Second)
+	s := server.NewServer(book)
 
 	errorgroup, errorcontext := errgroup.WithContext(ctx)
 	errorgroup.Go(func() error {
-		return h.Start(ctx, book)
+		return h.InitAndStart(ctx, book)
 	})
 	time.Sleep(time.Second * 10)
 	errorgroup.Go(func() error {
-
+		return s.Start(ctx, ":8090")
+	})
+	errorgroup.Go(func() error {
 		return handleSignals(errorcontext, cancel)
 	})
-	startServer()
 	errorgroup.Wait()
 	return nil
 }
 
-func startServer() {
-	router := gin.Default()
-	router.POST("/Login", loginandsignup.Login)
-	router.POST("/Signup", loginandsignup.SignUp)
-	router.POST("/Order", Getorder)
-	router.Run("localhost:9090")
-}
-
-func Getorder(context *gin.Context) {
-	var neworder engine.Order
-	if err := context.BindJSON(&neworder); err != nil {
-		return
-	}
-	neworder.ID = neworder.UserEmail + xid.New().String()
-	if neworder.Intent == "buy" {
-		book[neworder.Name].ProcessBuyOrder(&neworder)
-	} else {
-		book[neworder.Name].ProcessSellOrder(&neworder)
-	}
-
-	db := dbConn()
-	insOrder, err := db.Prepare("INSERT INTO orderhistory(ID, Order) VALUES(?,?)")
-	if err != nil {
-		log.Fatal(err)
-	}
-	Order, err := json.Marshal(neworder)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	insOrder.Exec(neworder.ID, Order)
-
-	defer db.Close()
-
-	context.IndentedJSON(http.StatusCreated, neworder)
-
-}
-
 func dbConn() (db *sql.DB) {
-
 	db, err := sql.Open("mysql", "root:@tcp(127.0.0.1:3306)/userdetails")
 	if err != nil {
 		log.Fatal(err)

@@ -22,7 +22,7 @@ func NewStockHandler(time time.Duration) *StockHandler {
 	}
 }
 
-func (s *StockHandler) Start(ctx context.Context, book map[string]*engine.OrderBook) error {
+func (s *StockHandler) InitAndStart(ctx context.Context, book map[string]*engine.OrderBook) error {
 	errorgroup, errorcontext := errgroup.WithContext(ctx)
 	for _, stock := range Stocks {
 		stk := stock
