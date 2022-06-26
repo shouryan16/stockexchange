@@ -1,0 +1,146 @@
+[
+  {
+    "name": "Swiss Life AG",
+    "price": 345.44,
+    "volatility": 0.1,
+    "type": "Finance"
+  },
+  {
+    "name": "Spotify",
+    "price": 168.90,
+    "volatility":1,
+    "type": "Technology"
+  },
+  {
+    "name": "SolarCity",
+    "price": 20.76,
+    "volatility": 2,
+    "type": "Energy"
+  },
+  {
+    "name": "UBS AG",
+    "price": 327.44,
+    "volatility": 2,
+    "type": "Finance"
+  },
+  {
+    "name": "SHELL",
+    "price": 69.38,
+    "volatility": 3,
+    "type": "Raw Materials"
+  },
+  {
+    "name": "Card Services AG",
+    "price": 1736.23,
+    "volatility": 2,
+    "type": "Finance"
+  },
+  {
+    "name": "Apple",
+    "price": 185.11,
+    "volatility": 0.5,
+    "type": "Technology"
+  },
+  {
+    "name": "Samsung",
+    "price": 2210.03,
+    "volatility": 1,
+    "type": "Technology"
+  },
+  {
+    "name": "Holcim AG",
+    "price": 898.98,
+    "volatility": 1,
+    "type": "Raw Materials"
+  },
+  {
+    "name": "TESLA",
+    "price": 348.66,
+    "volatility": 1,
+    "type": "Technology"
+  },
+  {
+    "name": "Murphy OIL",
+    "price": 200.07,
+    "volatility": 2,
+    "type": "Raw Materials"
+  },
+  {
+    "name": "EWZ",
+    "price": 88.76,
+    "volatility": 1,
+    "type": "Energy"
+  },
+  {
+    "name": "Credit Suisse AG",
+    "price": 178.32,
+    "volatility": 1.5,
+    "type": "Finance"
+  },
+  {
+    "name": "Glencore",
+    "price": 30.64,
+    "volatility": 3,
+    "type": "Raw Materials"
+  },
+  {
+    "name": "TroubleShooters",
+    "price": 40.50,
+    "volatility": 3,
+    "type": "Fire Arms"
+  },
+  {
+    "name": "AT&T",
+    "price": 658.01,
+    "volatility": 1.5,
+    "type": "Technology"
+  },
+  {
+    "name": "Alphabet",
+    "price": 1115.65,
+    "volatility": 1,
+    "type": "Technology"
+  },
+  {
+    "name": "Ruag",
+    "price": 413.25,
+    "volatility": 3,
+    "type": "Fire Arms"
+  },
+  {
+    "name": "Axpo",
+    "price": 115.2,
+    "volatility": 1.5,
+    "type": "Energy"
+  },
+  {
+    "name": "Swiss RE",
+    "price": 85.7,
+    "volatility": 0.5,
+    "type": "Finance"
+  },
+  {
+    "name": "Wind Power AG",
+    "price": 333.333,
+    "volatility": 1,
+    "type": "Energy"
+  },
+  {
+    "name": "Wood Holding AG",
+    "price": 124.32,
+    "volatility": 0.5,
+    "type": "Raw Materials"
+  },
+  {
+    "name": "FuchsGroup AG",
+    "price": 20.01,
+    "volatility": 2,
+    "type": "Technology"
+  },
+  {
+    "name": "MasterCard",
+    "price": 2001.00,
+    "volatility": 1,
+    "type": "Finance"
+  }
+]
